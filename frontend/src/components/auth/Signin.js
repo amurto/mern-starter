@@ -107,9 +107,10 @@ const Signin = () => {
                 }}
                 onSubmit={(values, { setSubmitting }) => {
                     const submitFormHandler = async values => {
+                      console.log(process.env.REACT_APP_BACKEND_URL);
                         try {
                             const responseData = await sendRequest(
-                                'http://localhost:5000/api/users/login',
+                                process.env.REACT_APP_BACKEND_URL + '/api/users/login',
                                 'POST',
                                 JSON.stringify({
                                     email: values.email,

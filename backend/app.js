@@ -55,8 +55,8 @@ mongoose
     },
   )
   .then(() => {
-    app.listen(5000);
-    console.log("Server connected to port 5000");
+    app.listen(process.env.PORT || 5000);
+    console.log('Server connected');
   })
   .catch(err => {
     console.log(err);
