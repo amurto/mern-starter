@@ -5,6 +5,8 @@ import { Formik } from 'formik';
 import { useHttpClient } from '../hooks/http-hook';
 import { AuthContext } from '../context/auth-context';
 
+import LoadingSpinner from '../utils/LoadingSpinner';
+import Alert from '@material-ui/lab/Alert';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -50,10 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 const Signin = () => {
   const auth = useContext(AuthContext);
-
-  // eslint-disable-next-line
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-    
   let history = useHistory();
 
   const classes = useStyles();
@@ -71,6 +70,16 @@ const Signin = () => {
             <Typography component="h1" variant="h5">
                 Sign in
             </Typography>
+          </div>
+          {isLoading && (
+            <LoadingSpinner />
+          )}
+          <div style={{ marginTop: "20p", marginBottom: "20px" }}>
+            {error && (
+              <Alert onClose={clearError} severity="error">
+                  {error}
+              </Alert>
+            )}
           </div>
           <Formik
                 initialValues={{ 
@@ -98,7 +107,6 @@ const Signin = () => {
                 }}
                 onSubmit={(values, { setSubmitting }) => {
                     const submitFormHandler = async values => {
-                        console.log(values);
                         try {
                             const responseData = await sendRequest(
                                 'http://localhost:5000/api/users/login',
@@ -111,10 +119,11 @@ const Signin = () => {
                                     'Content-Type': 'application/json'
                                 }
                             );
-                            console.log(responseData);
                             auth.login(responseData.userId, responseData.token);
                             history.push("/");
+                            
                         } catch(err) {
+                          setSubmitting(false);
                           console.log(err);
                         }
                     }
@@ -180,12 +189,12 @@ const Signin = () => {
                     </Button>
                     <Grid container>
                     <Grid item xs>
-                      <Link to="/" variant="body2">
+                      <Link style={{ color: "#3f51b5", textDecoration: "none" }} to="/" variant="body2">
                         Forgot password?
                       </Link>
                     </Grid>
                     <Grid item>
-                      <Link to="/signup" variant="body2">
+                      <Link style={{ color: "#3f51b5", textDecoration: "none" }} to="/signup" variant="body2">
                         {"Don't have an account? Sign Up"}
                       </Link>
                     </Grid>

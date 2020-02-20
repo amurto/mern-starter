@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AuthContext } from '../context/auth-context';
+import Logout from '../auth/Logout';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -41,19 +42,19 @@ const PrimaryAppBar = () => {
           {!auth.isLoggedIn && (
               <Button color="inherit">
               <Link 
-                  style={{ 
-                      color: "white", 
-                      textDecoration: "none", 
-                      fontSize: "16px" }} 
-              to="/signin">
+                style={{ 
+                        color: "white", 
+                        textDecoration: "none", 
+                        fontSize: "16px" 
+                      }} 
+                to="/signin"
+              >
                   Login
               </Link>
             </Button>
           )}
           {auth.isLoggedIn && (
-            <Button color="inherit">
-              Logout
-            </Button>
+            <Logout />
           )}
         </Toolbar>
       </AppBar>

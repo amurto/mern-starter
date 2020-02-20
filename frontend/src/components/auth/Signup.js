@@ -5,6 +5,8 @@ import { Formik } from 'formik';
 import { useHttpClient } from '../hooks/http-hook';
 import { AuthContext } from '../context/auth-context';
 
+import LoadingSpinner from '../utils/LoadingSpinner';
+import Alert from '@material-ui/lab/Alert';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -50,10 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 const Signup = () => {
     const auth = useContext(AuthContext);
-
-    // eslint-disable-next-line
     const { isLoading, error, sendRequest, clearError } = useHttpClient();
-
     let history = useHistory();
 
     const classes = useStyles();
@@ -71,6 +70,16 @@ const Signup = () => {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
+            </div>
+            {isLoading && (
+                <LoadingSpinner />
+            )}
+            <div style={{ marginTop: "20p", marginBottom: "20px" }}>
+                {error && (
+                <Alert onClose={clearError} severity="error">
+                    {error}
+                </Alert>
+                )}
             </div>
             
             <Formik
@@ -122,10 +131,10 @@ const Signup = () => {
                                         'Content-Type': 'application/json'
                                     }
                                 );
-                                console.log(responseData);
                                 auth.login(responseData.userId, responseData.token);
                                 history.push("/");
                             } catch(err) {
+                                setSubmitting(false);
                                 console.log(err);
                             }
                         }
@@ -223,7 +232,7 @@ const Signup = () => {
                         </Button>
                         <Grid container justify="flex-end">
                             <Grid item>
-                            <Link to="/signin">
+                            <Link style={{ color: "#3f51b5", textDecoration: "none" }} to="/signin">
                                 Already have an account? Sign in
                             </Link>
                             </Grid>
