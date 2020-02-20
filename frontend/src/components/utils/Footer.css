@@ -1,0 +1,34 @@
+  
+.footer {
+    width: 100%;
+    bottom: 0; 
+    background-color: black;
+    color: lightblue;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.footer-copyright {
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+}
+
+.contact-list-hidden {
+    display: none
+}
+
+.contact-list-item {
+    margin: 20px;
+}
+
+@media screen and (min-width: 900px) {
+    .footer {
+        min-height: 140px;
+    }
+
+    .contact-list {
+        margin-left: 30%;
+        margin-right: 30%;
+    }
+}
